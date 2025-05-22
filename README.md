@@ -1,0 +1,1 @@
+1、application.yml中数据库连接和阿里云OSS配置需要修改为自己的。
