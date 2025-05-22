@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.StudentMapper">
+    <update id="updateById">
+        update student
+        #         set标签可以自动生成set关键字、删除更新字段后多余的逗号
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="no != null and no != ''">
+                no = #{no},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="degree != null">
+                degree = #{degree},
+            </if>
+            <if test="idCard != null and idCard != ''">
+                id_card = #{idCard},
+            </if>
+            <if test="isCollege != null">
+                is_college = #{isCollege},
+            </if>
+
+            <if test="address != null and address != ''">
+            address = #{address},
+            </if>
+
+            <if test="graduationDate != null">
+            graduation_date = #{graduationDate},
+            </if>
+            <if test="clazzId != null">
+            clazz_id = #{clazzId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from student where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="list" resultType="com.itheima.pojo.Student">
+        select s.*, c.name clazzName
+        from student s left join clazz c on s.clazz_id = c.id
+        <where> <!--where标签可以自动添加、去除where并去除多余的and和or-->
+            <if test="name != null and name!=''">
+                and s.name like concat('%',#{name},'%')
+            </if>
+            <if test="degree != null">
+                and s.degree = #{degree}
+            </if>
+            <if test="clazzId != null">
+                and s.clazz_id = #{clazzId}
+            </if>
+        </where>
+        order by s.update_time desc
+    </select>
+    <select id="countStudentDegreeData" resultType="java.util.Map">
+        select
+            (case degree when 1 then '初中'
+                      when 2 then '高中'
+                      when 3 then '大专'
+                      when 4 then '本科'
+                      when 5 then '硕士'
+                      when 6 then '博士'
+                      else '其他' end) name,
+            count(*) value from student group by degree order by degree
+    </select>
+<!--    <select id="countStudentClazzData" resultType="java.util.Map">-->
+<!--        select-->
+<!--            (case job when 1 then '班主任'-->
+<!--                      when 2 then '讲师'-->
+<!--                      when 3 then '学工主管'-->
+<!--                      when 4 then '教研主管'-->
+<!--                      when 5 then '咨询师'-->
+<!--                      else '其他' end) pos,-->
+<!--            count(*) num from emp group by job order by num-->
+<!--    </select>-->
+    <!--    <select id="getById" resultType="com.itheima.pojo.Student">-->
+<!--        select s.*,-->
+<!--               ee.id ee_id,-->
+<!--               ee.emp_id ee_empid,-->
+<!--               ee.begin ee_begin,-->
+<!--               ee.end ee_end,-->
+<!--               ee.company ee_company,-->
+<!--               ee.job ee_job-->
+<!--        from emp e left join emp_expr ee on e.id=ee.emp_id where e.id = #{id}-->
+<!--    </select>-->
+
+
+</mapper>
+
+

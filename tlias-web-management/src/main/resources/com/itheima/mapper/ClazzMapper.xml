@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.ClazzMapper">
+    <update id="updateById">
+        update clazz
+        #         set标签可以自动生成set关键字、删除更新字段后多余的逗号
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="room != null and room != ''">
+                room = #{room},
+            </if>
+            <if test="beginDate != null">
+                begin_date = #{beginDate},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate},
+            </if>
+            <if test="masterId != null">
+                master_id = #{masterId},
+            </if>
+            <if test="subject != null">
+                subject = #{subject},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="list" resultType="com.itheima.pojo.Clazz">
+        select c.*, e.name masterName,
+               (case when c.begin_date&gt;now() then '未开班'
+                     when c.end_date&lt;now() then '已结课'
+                     else '已开班' end) status
+               from clazz c left join emp e on c.master_id = e.id
+        <where> <!--where标签可以自动添加、去除where并去除多余的and和or-->
+            <if test="name != null and name!=''">
+                and c.name like concat('%',#{name},'%')
+            </if>
+
+            <if test="begin != null and end != null">
+                and c.end_date between #{begin} and #{end}
+            </if>
+        </where>
+        order by c.update_time desc
+    </select>
+    <select id="getById" resultType="com.itheima.pojo.Clazz">
+        select c.*, e.name masterName
+               from clazz c left join emp e on c.master_id = e.id
+        where c.id = #{id}
+    </select>
+    <!--    <select id="getById" resultType="com.itheima.pojo.Clazz">-->
+<!--        select c.*, e.name masterName-->
+<!--               from clazz c left join emp e on c.master_id = e.id-->
+<!--        where c.id = #{id}-->
+<!--    </select>-->
+
+
+</mapper>
