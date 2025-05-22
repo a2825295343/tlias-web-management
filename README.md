@@ -1,1 +1,1 @@
-1、application.yml中数据库连接和阿里云OSS配置需要修改为自己的。
+1、application.yml中数据库连接和阿里云OSS配置需要修改为自己的；JwtUtils.java以及test目录下的Demo.java和JwtTest.java中的配置都要改为自己的。
