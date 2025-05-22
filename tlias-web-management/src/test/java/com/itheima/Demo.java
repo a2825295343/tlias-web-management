@@ -15,7 +15,7 @@ public class Demo {
         // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
         EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
         // 填写Bucket名称，例如examplebucket。
-        String bucketName = "java-ai-fesh";
+        String bucketName = System.getenv("ALIYUN_OSS_BUCKET_NAME");
         // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
         String objectName = "001.png";
         // 填写本地文件的完整路径，例如D:\\localpath\\examplefile.txt。

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private static final String SECRET_KEY = "ZmVlc2gudG9wNjY2dGxpYXNpdGhlaW1hZmVlc2gudG9wNjY2dGxpYXM="; // 秘钥
+    private static final String SECRET_KEY = System.getenv("JWT_SECRET_KEY"); // 秘钥
     private static final long EXPIRATION_TIME = 12 * 60 * 60 * 1000; // 12小时
 
     /**
